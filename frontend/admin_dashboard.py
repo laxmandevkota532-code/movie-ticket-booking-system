@@ -3,7 +3,8 @@ from backend.admin import add_movie
 from backend.admin import add_movie, get_all_movies, delete_movie
 from backend.admin import add_movie, get_all_movies, delete_movie, add_show
 from backend.admin import add_movie, get_all_movies, delete_movie, add_show, get_all_bookings
-from backend.admin import (add_movie,get_all_movies,delete_movie,add_show,get_all_bookings,get_total_revenue)
+from backend.admin import (add_movie, get_all_movies,
+                           delete_movie, add_show, get_all_bookings, get_total_revenue)
 
 
 def open_admin_dashboard():
@@ -19,18 +20,18 @@ def open_admin_dashboard():
     main_content = tk.Frame(dashboard, bg="white")
     main_content.pack(side="right", expand=True, fill="both")
 
-    # Function to clear main content
+    # ----clear main content--
     def clear_main():
         for widget in main_content.winfo_children():
             widget.destroy()
 
-    
-    # Add Movie Form
-    
+    # --Add Movie Form
+
     def show_add_movie():
         clear_main()
 
-        tk.Label(main_content, text="Add Movie", font=("Arial", 16), bg="white").pack(pady=20)
+        tk.Label(main_content, text="Add Movie", font=(
+            "Arial", 16), bg="white").pack(pady=20)
 
         tk.Label(main_content, text="Movie Name", bg="white").pack()
         name_entry = tk.Entry(main_content)
@@ -48,32 +49,30 @@ def open_admin_dashboard():
         genre_entry = tk.Entry(main_content)
         genre_entry.pack()
 
+        # --Save movie--
         def save_movie():
             name = name_entry.get()
             desc = desc_entry.get()
             duration = duration_entry.get()
             genre = genre_entry.get()
 
-            # if name:
-            #     add_movie(name, desc, duration, genre)
-            #     tk.Label(main_content, text="Movie Added Successfully!", fg="green", bg="white").pack()
-            # else:
-            #     tk.Label(main_content, text="Movie Name Required!", fg="red", bg="white").pack()
             if not name or not desc or not duration or not genre:
-                tk.Label(main_content, text="All fields are required!", fg="red", bg="white").pack()
+                tk.Label(main_content, text="All fields are required!",
+                         fg="red", bg="white").pack()
             else:
                 add_movie(name, desc, duration, genre)
-                tk.Label(main_content, text="Movie Added Successfully!", fg="green", bg="white").pack()
+                tk.Label(main_content, text="Movie Added Successfully!",
+                         fg="green", bg="white").pack()
 
-                # Clear fields after success
+                # ---clear fields---
                 name_entry.delete(0, tk.END)
                 desc_entry.delete(0, tk.END)
                 duration_entry.delete(0, tk.END)
                 genre_entry.delete(0, tk.END)
-        tk.Button(main_content, text="Save Movie", command=save_movie).pack(pady=15)
-    
-    # Delete Movie Section
-    
+        tk.Button(main_content, text="Save Movie",
+                  command=save_movie).pack(pady=15)
+
+    # ---Delete Movie Section--
     def show_delete_movie():
         clear_main()
 
@@ -107,10 +106,8 @@ def open_admin_dashboard():
     # Sidebar Title
     tk.Label(sidebar, text="Admin Panel", bg="#2c3e50",
              fg="white", font=("Arial", 14)).pack(pady=20)
-    
-    
-    # Add Show Section
-    
+
+    # ---Add Show---
 
     def show_add_show():
         clear_main()
@@ -125,7 +122,7 @@ def open_admin_dashboard():
                      bg="white", fg="red").pack()
             return
 
-        # Movie Dropdown
+        # ----Movie Dropdown---
         tk.Label(main_content, text="Select Movie", bg="white").pack()
         movie_var = tk.StringVar()
         movie_names = [movie[1] for movie in movies]
@@ -160,7 +157,7 @@ def open_admin_dashboard():
                          fg="red", bg="white").pack()
                 return
 
-            # Get movie_id from name
+            # ---Get movie_id from name
             movie_id = None
             for movie in movies:
                 if movie[1] == selected_movie_name:
@@ -178,9 +175,9 @@ def open_admin_dashboard():
 
         tk.Button(main_content, text="Save Show",
                   command=save_show).pack(pady=15)
-    
-    # View Bookings Section
-    
+
+    # ---View Bookings Section----
+
     def show_view_bookings():
         clear_main()
 
@@ -219,10 +216,10 @@ def open_admin_dashboard():
             tk.Label(row, text=booking[2],
                      width=15, bg="white", anchor="w").pack(side="left")
             tk.Label(row, text=booking[3],
-                     width=10, bg="white", anchor="w").pack(side="left")   
-    
+                     width=10, bg="white", anchor="w").pack(side="left")
+
     # View Revenue Section
-    
+
     def show_view_revenue():
         clear_main()
 
@@ -237,10 +234,15 @@ def open_admin_dashboard():
                  fg="green",
                  bg="white").pack(pady=10)
     # Sidebar Buttons
-    tk.Button(sidebar, text="Add Movie", width=20, command=show_add_movie).pack(pady=10)
-    tk.Button(sidebar, text="Delete Movie",width=20, command=show_delete_movie).pack(pady=10)
-    tk.Button(sidebar, text="Add Show",width=20, command=show_add_show).pack(pady=10)
-    tk.Button(sidebar, text="View Bookings",width=20, command=show_view_bookings).pack(pady=10)
-    tk.Button(sidebar, text="View Revenue",width=20, command=show_view_revenue).pack(pady=10)
+    tk.Button(sidebar, text="Add Movie", width=20,
+              command=show_add_movie).pack(pady=10)
+    tk.Button(sidebar, text="Delete Movie", width=20,
+              command=show_delete_movie).pack(pady=10)
+    tk.Button(sidebar, text="Add Show", width=20,
+              command=show_add_show).pack(pady=10)
+    tk.Button(sidebar, text="View Bookings", width=20,
+              command=show_view_bookings).pack(pady=10)
+    tk.Button(sidebar, text="View Revenue", width=20,
+              command=show_view_revenue).pack(pady=10)
 
     dashboard.mainloop()

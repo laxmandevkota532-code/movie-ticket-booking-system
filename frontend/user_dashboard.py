@@ -10,8 +10,6 @@ def open_user_dashboard():
     dashboard.geometry("1000x600")
     dashboard.configure(bg="white")
 
-    #  TOP BAR 
-
     top_bar = tk.Frame(dashboard, height=50, bg="#2c3e50")
     top_bar.pack(fill="x")
 
@@ -24,13 +22,12 @@ def open_user_dashboard():
     ).pack(side="left", padx=20)
 
     tk.Button(top_bar,
-          text="Profile",
-          bg="white",
-          command=lambda: print("Profile")
-    ).pack(side="right", padx=20)
+              text="Profile",
+              bg="white",
+              command=lambda: print("Profile")
+              ).pack(side="right", padx=20)
 
-    #  SIDEBAR 
-
+    # --SIDEBAR---
     sidebar = tk.Frame(dashboard, width=200, bg="#34495e")
     sidebar.pack(side="left", fill="y")
 
@@ -42,16 +39,16 @@ def open_user_dashboard():
         font=("Arial", 12)
     ).pack(pady=20)
 
-    #                 MAIN CONTENT 
+    # ----MAIN CONTENT--
     main_content = tk.Frame(dashboard, bg="white")
     main_content.pack(expand=True, fill="both")
 
-    #                   UTIL FUNCTION 
+    # -----UTIL FUNCTION----
     def clear_main():
         for widget in main_content.winfo_children():
             widget.destroy()
 
-    #  FEATURES 
+    # ---FEATURES---
     def show_dashboard():
         clear_main()
         tk.Label(
@@ -110,11 +107,11 @@ def open_user_dashboard():
                 text="View Details",
                 bg="blue",
                 fg="white",
-                command=lambda mid=movie[0], mname=name: show_movie_details(mid, mname)
+                command=lambda mid=movie[0], mname=name: show_movie_details(
+                    mid, mname)
             ).pack(side="right", padx=10)
 
-    # Show book tickets
-
+    # ----Show book tickets----
     def show_book_tickets():
         clear_main()
 
@@ -172,7 +169,7 @@ def open_user_dashboard():
         dashboard.destroy()
         from frontend.login import open_login
         open_login()
-    
+
     def show_movie_details(movie_id, movie_name):
         clear_main()
 
@@ -212,9 +209,8 @@ def open_user_dashboard():
                 ).pack(pady=10)
 
                 break
-    
-    # Show shows
 
+    # ---Show shows---
     def show_shows(movie_id, movie_name):
         clear_main()
 
@@ -301,7 +297,7 @@ def open_user_dashboard():
 
                 btn.grid(row=r, column=c, padx=5, pady=5)
 
-        # Confrim booking
+        # ----Confirm booking----
 
         def confirm_booking():
             if not selected_seats:
@@ -315,7 +311,7 @@ def open_user_dashboard():
 
             from backend.booking import save_booking
 
-            user_id = 1  # temporary (we will fix login later)
+            user_id = 1
             seats_str = ", ".join(selected_seats)
 
             save_booking(user_id, show_id, seats_str)
@@ -342,8 +338,8 @@ def open_user_dashboard():
             fg="white",
             command=confirm_booking
         ).pack(pady=20)
-    
-    # My bookings 
+
+    # ---My bookings---
 
     def show_my_bookings():
         clear_main()
@@ -357,7 +353,7 @@ def open_user_dashboard():
 
         from backend.booking import get_user_bookings
 
-        user_id = 1  # temporary fixed user
+        user_id = 1
 
         bookings = get_user_bookings(user_id)
 
@@ -400,22 +396,22 @@ def open_user_dashboard():
                 text=f"Booked At: {booking_time}",
                 fg="gray",
                 bg="#ecf0f1"
-            ).pack(anchor="w", padx=10, pady=(0,5))
+            ).pack(anchor="w", padx=10, pady=(0, 5))
 
-    # Show Profile
+    # ----Show Profile-----
 
-   
+    # ----SIDEBAR BUTTONS----
+    tk.Button(sidebar, text="Dashboard", width=20,
+              command=show_dashboard).pack(pady=5)
+    tk.Button(sidebar, text="View Movies", width=20,
+              command=show_movies).pack(pady=5)
+    tk.Button(sidebar, text="Book Tickets", width=20,
+              command=show_book_tickets).pack(pady=5)
+    tk.Button(sidebar, text="My Bookings", width=20,
+              command=show_my_bookings).pack(pady=5)
+    tk.Button(sidebar, text="Logout", width=20, bg="red",
+              fg="white", command=logout).pack(pady=40)
 
-    # SIDEBAR BUTTONS 
-    tk.Button(sidebar, text="Dashboard", width=20, command=show_dashboard).pack(pady=5)
-    tk.Button(sidebar, text="View Movies", width=20, command=show_movies).pack(pady=5)
-    tk.Button(sidebar, text="Book Tickets", width=20, command=show_book_tickets).pack(pady=5)
-    tk.Button(sidebar,text="My Bookings",width=20,command=show_my_bookings).pack(pady=5)
-    tk.Button(sidebar, text="Logout", width=20, bg="red", fg="white", command=logout).pack(pady=40)
-    
-
-    
     show_dashboard()
 
     dashboard.mainloop()
-
