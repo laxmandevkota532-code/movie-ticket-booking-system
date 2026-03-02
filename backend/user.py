@@ -13,11 +13,7 @@ def get_user_by_id(user_id):
 def update_user(user_id, name, email):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE users
-        SET name = ?, email = ?
-        WHERE id = ?
-    """, (name, email, user_id))
+    cursor.execute(""" UPDATE users SET name = ?, email = ? WHERE id = ? """, (name, email, user_id))
     conn.commit()
     conn.close()
 

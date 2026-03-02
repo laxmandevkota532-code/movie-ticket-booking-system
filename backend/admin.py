@@ -1,4 +1,3 @@
-
 # Add Movie
 from backend.database import get_connection
 
@@ -28,6 +27,7 @@ def get_all_movies():
     conn.close()
     return movies
 
+# delete movie
 
 def delete_movie(movie_id):
     conn = get_connection()

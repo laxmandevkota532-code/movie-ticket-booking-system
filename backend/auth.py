@@ -16,74 +16,14 @@ def register_user(name, email, password):
         return True
 
     except Exception as e:
+        print("REGISTER ERROR:", E)
         return False
 
     finally:
         conn.close()
 
 
-# Login_User
-
-
-# def login_user(email, password):
-#     conn = get_connection()
-#     cursor = conn.cursor()
-
-#     # Check admin first
-#     cursor.execute("""
-#     SELECT * FROM admins
-#     WHERE email = ? AND password = ?
-#     """, (email, password))
-
-#     admin = cursor.fetchone()
-
-#     if admin:
-#         conn.close()
-#         return "admin"
-
-#     # Check normal user
-#     cursor.execute("""
-#     SELECT * FROM users
-#     WHERE email = ? AND password = ?
-#     """, (email, password))
-
-#     user = cursor.fetchone()
-#     conn.close()
-
-#     if user:
-#         return "user"
-#     else:
-#         return None
-
-# def login_user(email, password):
-#     conn = get_connection()
-#     cursor = conn.cursor()
-
-#     # Check admin first
-#     cursor.execute("""
-#     SELECT * FROM admins
-#     WHERE email = ? AND password = ?
-#     """, (email, password))
-
-#     admin = cursor.fetchone()
-
-#     if admin:
-#         conn.close()
-#         return "admin"
-
-#     # Check normal user
-#     cursor.execute("""
-#     SELECT * FROM users
-#     WHERE email = ? AND password = ?
-#     """, (email, password))
-
-#     user = cursor.fetchone()
-#     conn.close()
-
-#     if user:
-#         return "user"
-#     else:
-#         return None
+# User Login
 
 from backend.database import get_connection
 
@@ -91,25 +31,25 @@ def login_user(email, password):
     conn = get_connection()
     cursor = conn.cursor()
 
+    print("Trying login with:", email, password)  
+
     cursor.execute(
         "SELECT * FROM users WHERE email = ? AND password = ?",
         (email, password)
     )
 
     user = cursor.fetchone()
-    conn.close()
+    print("User found:", user)   
 
+    conn.close()
     return user
+ # Reset password
     
 def reset_password(email, new_password):
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("""
-    UPDATE users
-    SET password = ?
-    WHERE email = ?
-    """, (new_password, email))
+    cursor.execute(""" UPDATE users SET password = ? WHERE email = ? """, (new_password, email))
 
     conn.commit()
 
@@ -121,6 +61,7 @@ def reset_password(email, new_password):
     else:
         return False
     
+# login admin
 def login_admin(email, password):
     conn = get_connection()
     cursor = conn.cursor()

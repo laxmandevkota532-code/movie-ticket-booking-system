@@ -1,123 +1,84 @@
-# import tkinter as tk
-# from tkinter import messagebox
-# from backend.auth import register_user
-
-
-# def open_signup():
-#     window = tk.Tk()
-#     window.title("Signup")
-#     window.geometry("300x300")
-
-#     tk.Label(window, text="Name").pack(pady=5)
-#     name_entry = tk.Entry(window)
-#     name_entry.pack()
-
-#     tk.Label(window, text="Email").pack(pady=5)
-#     email_entry = tk.Entry(window)
-#     email_entry.pack()
-
-#     tk.Label(window, text="Password").pack(pady=5)
-#     password_entry = tk.Entry(window, show="*")
-#     password_entry.pack()
-
-#     def signup_action():
-#         name = name_entry.get()
-#         email = email_entry.get()
-#         password = password_entry.get()
-
-#         success = register_user(name, email, password)
-
-#         if success:
-#             messagebox.showinfo("Success", "Account created successfully!")
-#         else:
-#             messagebox.showerror("Error", "Email already exists!")
-
-#     tk.Button(window, text="Signup", command=signup_action).pack(pady=20)
-
-#     window.mainloop()
-
 import tkinter as tk
 from tkinter import messagebox
 from backend.auth import register_user
-
+# from frontend.login import open_login
 
 def open_signup():
     window = tk.Tk()
-    window.title("CineBook - Signup")
-    window.geometry("1000x600")
-    window.configure(bg="white")
+    window.title("CineBook - Sign Up")
+    window.state("zoomed")
+    window.configure(bg="#e6e6e6")
     window.resizable(False, False)
 
-    # ================= TOP BAR =================
-    top_bar = tk.Frame(window, height=60, bg="#2c3e50")
-    top_bar.pack(fill="x")
+    # Center Card
+    card = tk.Frame(window, bg="white", highlightthickness=1, highlightbackground="#d0d0d0")
+    card.place(relx=0.5, rely=0.5, anchor="center", width=420, height=420)
 
-    tk.Label(
-        top_bar,
-        text="CineBook",
-        bg="#2c3e50",
-        fg="white",
-        font=("Arial", 18, "bold")
-    ).pack(side="left", padx=20)
+    #  Title
+    tk.Label(card,text="Create Account",font=("Arial", 20, "bold"),bg="white").pack(pady=25)
 
-    # ================= LEFT PANEL =================
-    left_panel = tk.Frame(window, width=300, bg="#34495e")
-    left_panel.pack(side="left", fill="y")
+    #  Name 
+    tk.Label(card, text="Name", bg="white", anchor="w").pack(fill="x", padx=60)
+    name_entry = tk.Entry(card, width=30, relief="flat",
+                          highlightthickness=1, highlightbackground="#cccccc")
+    name_entry.pack(pady=8, ipady=4)
 
-    tk.Label(
-        left_panel,
-        text="Create Account",
-        bg="#34495e",
-        fg="white",
-        font=("Arial", 20, "bold")
-    ).pack(pady=200)
+    #  Email 
+    tk.Label(card, text="Email", bg="white", anchor="w").pack(fill="x", padx=60)
+    email_entry = tk.Entry(card, width=30, relief="flat",
+                           highlightthickness=1, highlightbackground="#cccccc")
+    email_entry.pack(pady=8, ipady=4)
 
-    # ================= RIGHT CONTENT =================
-    main_content = tk.Frame(window, bg="white")
-    main_content.pack(expand=True, fill="both")
+    #  Password 
+    tk.Label(card, text="Password", bg="white", anchor="w").pack(fill="x", padx=60)
+    password_entry = tk.Entry(card, width=30, show="*", relief="flat",
+                              highlightthickness=1, highlightbackground="#cccccc")
+    password_entry.pack(pady=8, ipady=4)
 
-    form_frame = tk.Frame(main_content, bg="white")
-    form_frame.place(relx=0.5, rely=0.5, anchor="center")
+    #  Confirm Password 
+    tk.Label(card, text="Confirm Password", bg="white", anchor="w").pack(fill="x", padx=60)
+    confirm_entry = tk.Entry(card, width=30, show="*", relief="flat",
+                             highlightthickness=1, highlightbackground="#cccccc")
+    confirm_entry.pack(pady=8, ipady=4)
 
-    tk.Label(form_frame, text="Name", font=("Arial", 12), bg="white").pack(anchor="w")
-    name_entry = tk.Entry(form_frame, font=("Arial", 14), width=30)
-    name_entry.pack(pady=10)
-
-    tk.Label(form_frame, text="Email", font=("Arial", 12), bg="white").pack(anchor="w")
-    email_entry = tk.Entry(form_frame, font=("Arial", 14), width=30)
-    email_entry.pack(pady=10)
-
-    tk.Label(form_frame, text="Password", font=("Arial", 12), bg="white").pack(anchor="w")
-    password_entry = tk.Entry(form_frame, font=("Arial", 14), width=30, show="*")
-    password_entry.pack(pady=10)
-
-    # ================= SIGNUP ACTION =================
     def signup_action():
         name = name_entry.get().strip()
         email = email_entry.get().strip()
         password = password_entry.get().strip()
+        confirm = confirm_entry.get().strip()
 
-        if name == "" or email == "" or password == "":
+        if not name or not email or not password or not confirm:
             messagebox.showerror("Error", "Please fill all fields")
+            return
+
+        if password != confirm:
+            messagebox.showerror("Error", "Passwords do not match")
             return
 
         success = register_user(name, email, password)
 
         if success:
             messagebox.showinfo("Success", "Account created successfully!")
+            window.destroy()
+            from frontend.login import open_login
+            open_login()
         else:
             messagebox.showerror("Error", "Email already exists!")
 
-    # ================= BUTTON =================
-    tk.Button(
-        form_frame,
-        text="Signup",
-        width=25,
-        height=2,
-        bg="#2c3e50",
-        fg="white",
-        bd=0,
-        command=signup_action
-    ).pack(pady=20)
+    #  Sign Up Button 
+    tk.Button(card,text="Sign Up",bg="#2250b5",fg="white",width=22,height=1,bd=0,command=signup_action).pack(pady=15)
+
+    # Divider
+    tk.Frame(card, height=1, bg="#dddddd").pack(fill="x", pady=15, padx=50)
+
+    # Back to Login 
+    
+    def go_back():
+        window.destroy()
+        from frontend.login import open_login
+        open_login()
+
+    tk.Button(card,text="Back to Login",bg="white",fg="#2c3e50",font=("Arial", 11, "bold"),relief="flat",command=lambda: go_back()
+    ).pack(pady=10)
 
     window.mainloop()

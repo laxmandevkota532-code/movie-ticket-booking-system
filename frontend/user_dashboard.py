@@ -7,7 +7,7 @@ def open_user_dashboard():
 
     dashboard = tk.Tk()
     dashboard.title("User Dashboard")
-    dashboard.geometry("1000x600")
+    dashboard.state("zoomed")
     dashboard.configure(bg="white")
 
     #  TOP BAR 
@@ -15,38 +15,21 @@ def open_user_dashboard():
     top_bar = tk.Frame(dashboard, height=50, bg="#2c3e50")
     top_bar.pack(fill="x")
 
-    tk.Label(
-        top_bar,
-        text="Welcome to CineBook",
-        bg="#2c3e50",
-        fg="white",
-        font=("Arial", 14)
-    ).pack(side="left", padx=20)
-
-    tk.Button(top_bar,
-          text="Profile",
-          bg="white",
-          command=lambda: print("Profile")
-    ).pack(side="right", padx=20)
+    tk.Label(top_bar,text="Welcome to CineBook",bg="#2c3e50",fg="white",font=("Arial", 14)).pack(side="left", padx=20)
+    tk.Button(top_bar,text="Profile",bg="white",command=lambda: print("Profile")).pack(side="right", padx=20)
 
     #  SIDEBAR 
 
     sidebar = tk.Frame(dashboard, width=200, bg="#34495e")
     sidebar.pack(side="left", fill="y")
 
-    tk.Label(
-        sidebar,
-        text="User Panel",
-        bg="#34495e",
-        fg="white",
-        font=("Arial", 12)
-    ).pack(pady=20)
+    tk.Label(sidebar,text="User Panel",bg="#34495e",fg="white",font=("Arial", 12)).pack(pady=20)
 
-    #                 MAIN CONTENT 
+    # ------------------------MAIN CONTENT 
     main_content = tk.Frame(dashboard, bg="white")
     main_content.pack(expand=True, fill="both")
 
-    #                   UTIL FUNCTION 
+    #-------------------UTIL FUNCTION 
     def clear_main():
         for widget in main_content.winfo_children():
             widget.destroy()
@@ -54,31 +37,17 @@ def open_user_dashboard():
     #  FEATURES 
     def show_dashboard():
         clear_main()
-        tk.Label(
-            main_content,
-            text="Welcome User 👋",
-            font=("Arial", 18),
-            bg="white"
-        ).pack(pady=100)
+        tk.Label(main_content,text="Welcome User 👋",font=("Arial", 18),bg="white").pack(pady=100)
 
     def show_movies():
         clear_main()
 
-        tk.Label(
-            main_content,
-            text="Available Movies",
-            font=("Arial", 16),
-            bg="white"
-        ).pack(pady=20)
+        tk.Label(main_content,text="Available Movies",font=("Arial", 16),bg="white").pack(pady=20)
 
         movies = get_all_movies()
 
         if not movies:
-            tk.Label(
-                main_content,
-                text="No movies available.",
-                bg="white"
-            ).pack(pady=20)
+            tk.Label(main_content,text="No movies available.",bg="white").pack(pady=20)
             return
 
         for movie in movies:
@@ -90,49 +59,20 @@ def open_user_dashboard():
             frame = tk.Frame(main_content, bg="#ecf0f1")
             frame.pack(fill="x", padx=50, pady=10)
 
-            tk.Label(
-                frame,
-                text=f"{name} ({duration}) - {genre}",
-                bg="#ecf0f1",
-                font=("Arial", 12, "bold")
-            ).pack(anchor="w", padx=10, pady=5)
-
-            tk.Label(
-                frame,
-                text=description,
-                bg="#ecf0f1",
-                wraplength=600,
-                justify="left"
-            ).pack(anchor="w", padx=10, pady=5)
-
-            tk.Button(
-                frame,
-                text="View Details",
-                bg="blue",
-                fg="white",
-                command=lambda mid=movie[0], mname=name: show_movie_details(mid, mname)
-            ).pack(side="right", padx=10)
+            tk.Label(frame,text=f"{name} ({duration}) - {genre}",bg="#ecf0f1",font=("Arial", 12, "bold")).pack(anchor="w", padx=10, pady=5)
+            tk.Label(frame,text=description,bg="#ecf0f1",wraplength=600,justify="left").pack(anchor="w", padx=10, pady=5)
+            tk.Button(frame,text="View Details",bg="blue",fg="white",command=lambda mid=movie[0], mname=name: show_movie_details(mid, mname)).pack(side="right", padx=10)
 
     # Show book tickets
 
     def show_book_tickets():
         clear_main()
 
-        tk.Label(
-            main_content,
-            text="Select Movie to Book 🎬",
-            font=("Arial", 16),
-            bg="white"
-        ).pack(pady=20)
+        tk.Label(main_content,text="Select Movie to Book 🎬",font=("Arial", 16),bg="white").pack(pady=20)
 
         movies = get_all_movies()
-
         if not movies:
-            tk.Label(
-                main_content,
-                text="No movies available.",
-                bg="white"
-            ).pack(pady=20)
+            tk.Label(main_content,text="No movies available.",bg="white").pack(pady=20)
             return
 
         for movie in movies:
@@ -144,29 +84,12 @@ def open_user_dashboard():
             frame = tk.Frame(main_content, bg="#ecf0f1")
             frame.pack(fill="x", padx=50, pady=10)
 
-            tk.Label(
-                frame,
-                text=f"{name} ({duration}) - {genre}",
-                bg="#ecf0f1",
-                font=("Arial", 12, "bold")
-            ).pack(side="left", padx=10)
-
-            tk.Button(
-                frame,
-                text="Select Show",
-                bg="green",
-                fg="white",
-                command=lambda mid=movie_id, mname=name: show_shows(mid, mname)
-            ).pack(side="right", padx=10)
+            tk.Label(frame,text=f"{name} ({duration}) - {genre}",bg="#ecf0f1",font=("Arial", 12, "bold")).pack(side="left", padx=10)
+            tk.Button(frame,text="Select Show",bg="green",fg="white",command=lambda mid=movie_id, mname=name: show_shows(mid, mname)).pack(side="right", padx=10)
 
     def show_my_bookings():
         clear_main()
-        tk.Label(
-            main_content,
-            text="My Bookings Screen",
-            font=("Arial", 16),
-            bg="white"
-        ).pack(pady=50)
+        tk.Label(main_content,text="My Bookings Screen",font=("Arial", 16),bg="white").pack(pady=50)
 
     def logout():
         dashboard.destroy()
@@ -176,12 +99,7 @@ def open_user_dashboard():
     def show_movie_details(movie_id, movie_name):
         clear_main()
 
-        tk.Label(
-            main_content,
-            text=f"{movie_name} Details",
-            font=("Arial", 16),
-            bg="white"
-        ).pack(pady=20)
+        tk.Label(main_content,text=f"{movie_name} Details",font=("Arial", 16),bg="white").pack(pady=20)
 
         movies = get_all_movies()
 
@@ -191,26 +109,9 @@ def open_user_dashboard():
                 duration = movie[3]
                 genre = movie[4]
 
-                tk.Label(
-                    main_content,
-                    text=f"Duration: {duration}",
-                    bg="white"
-                ).pack(pady=5)
-
-                tk.Label(
-                    main_content,
-                    text=f"Genre: {genre}",
-                    bg="white"
-                ).pack(pady=5)
-
-                tk.Label(
-                    main_content,
-                    text=f"Description:\n{description}",
-                    bg="white",
-                    wraplength=600,
-                    justify="left"
-                ).pack(pady=10)
-
+                tk.Label(main_content,text=f"Duration: {duration}",bg="white").pack(pady=5)
+                tk.Label(main_content,text=f"Genre: {genre}",bg="white").pack(pady=5)
+                tk.Label(main_content,text=f"Description:\n{description}",bg="white",wraplength=600,justify="left").pack(pady=10)
                 break
     
     # Show shows
@@ -218,21 +119,11 @@ def open_user_dashboard():
     def show_shows(movie_id, movie_name):
         clear_main()
 
-        tk.Label(
-            main_content,
-            text=f"Shows for {movie_name}",
-            font=("Arial", 16),
-            bg="white"
-        ).pack(pady=20)
-
+        tk.Label(main_content,text=f"Shows for {movie_name}",font=("Arial", 16),bg="white").pack(pady=20)
         shows = get_shows_by_movie(movie_id)
 
         if not shows:
-            tk.Label(
-                main_content,
-                text="No shows available.",
-                bg="white"
-            ).pack(pady=20)
+            tk.Label(main_content,text="No shows available.",bg="white").pack(pady=20)
             return
 
         for show in shows:
@@ -244,29 +135,14 @@ def open_user_dashboard():
             frame = tk.Frame(main_content, bg="#ecf0f1")
             frame.pack(fill="x", padx=50, pady=10)
 
-            tk.Label(
-                frame,
-                text=f"{date} | {time} | Rs.{price}",
-                bg="#ecf0f1"
-            ).pack(side="left", padx=10)
-
-            tk.Button(
-                frame,
-                text="Select",
-                bg="blue",
-                fg="white",
-                command=lambda sid=show_id: open_seat_selection(sid)
+            tk.Label(frame,text=f"{date} | {time} | Rs.{price}",bg="#ecf0f1").pack(side="left", padx=10)
+            tk.Button(frame,text="Select",bg="blue",fg="white",command=lambda sid=show_id: open_seat_selection(sid)
             ).pack(side="right", padx=10)
 
     def open_seat_selection(show_id):
         clear_main()
 
-        tk.Label(
-            main_content,
-            text="Select Your Seat 🎟️",
-            font=("Arial", 16),
-            bg="white"
-        ).pack(pady=20)
+        tk.Label(main_content,text="Select Your Seat 🎟️",font=("Arial", 16),bg="white").pack(pady=20)
 
         seat_frame = tk.Frame(main_content, bg="white")
         seat_frame.pack(pady=20)
@@ -288,11 +164,7 @@ def open_user_dashboard():
             for c in range(cols):
                 seat_name = f"{chr(65+r)}{c+1}"
 
-                btn = tk.Button(
-                    seat_frame,
-                    text=seat_name,
-                    width=4,
-                    bg="green"
+                btn = tk.Button(seat_frame,text=seat_name,width=4,bg="green"
                 )
 
                 btn.config(
@@ -305,68 +177,37 @@ def open_user_dashboard():
 
         def confirm_booking():
             if not selected_seats:
-                tk.Label(
-                    main_content,
-                    text="No seat selected!",
-                    fg="red",
-                    bg="white"
+                tk.Label(main_content,text="No seat selected!",fg="red",bg="white"
                 ).pack()
                 return
 
             from backend.booking import save_booking
 
-            user_id = 1  # temporary (we will fix login later)
+            user_id = 1  
             seats_str = ", ".join(selected_seats)
 
             save_booking(user_id, show_id, seats_str)
 
-            tk.Label(
-                main_content,
-                text="Booking Confirmed ✅",
-                fg="green",
-                bg="white",
-                font=("Arial", 12, "bold")
+            tk.Label(main_content,text="Booking Confirmed ✅",fg="green",bg="white",font=("Arial", 12, "bold")
             ).pack(pady=10)
-
-            tk.Label(
-                main_content,
-                text=f"Seats Selected: {', '.join(selected_seats)}",
-                fg="green",
-                bg="white"
+            tk.Label(main_content,text=f"Seats Selected: {', '.join(selected_seats)}",fg="green",bg="white"
             ).pack(pady=10)
-
-        tk.Button(
-            main_content,
-            text="Book Now",
-            bg="blue",
-            fg="white",
-            command=confirm_booking
-        ).pack(pady=20)
+            tk.Button(main_content,text="Book Now",bg="blue",fg="white",command=confirm_booking
+            ).pack(pady=20)
     
     # My bookings 
 
     def show_my_bookings():
         clear_main()
-
-        tk.Label(
-            main_content,
-            text="My Bookings 🎟️",
-            font=("Arial", 16),
-            bg="white"
-        ).pack(pady=20)
-
+        tk.Label(main_content,text="My Bookings 🎟️",font=("Arial", 16),bg="white").pack(pady=20)
         from backend.booking import get_user_bookings
 
-        user_id = 1  # temporary fixed user
+        user_id = 1  
 
         bookings = get_user_bookings(user_id)
 
         if not bookings:
-            tk.Label(
-                main_content,
-                text="No bookings yet.",
-                bg="white"
-            ).pack(pady=50)
+            tk.Label(main_content,text="No bookings yet.",bg="white").pack(pady=50)
             return
         for booking in bookings:
             movie_name = booking[0]
@@ -378,29 +219,10 @@ def open_user_dashboard():
             frame = tk.Frame(main_content, bg="#ecf0f1")
             frame.pack(fill="x", padx=50, pady=10)
 
-            tk.Label(
-                frame,
-                text=f"{movie_name}",
-                font=("Arial", 12, "bold"),
-                bg="#ecf0f1"
-            ).pack(anchor="w", padx=10)
-
-            tk.Label(
-                frame,
-                text=f"Date: {date} | Time: {time}",
-                bg="#ecf0f1"
-            ).pack(anchor="w", padx=10)
-            tk.Label(
-                frame,
-                text=f"Seats: {seats}",
-                bg="#ecf0f1"
-            ).pack(anchor="w", padx=10)
-            tk.Label(
-                frame,
-                text=f"Booked At: {booking_time}",
-                fg="gray",
-                bg="#ecf0f1"
-            ).pack(anchor="w", padx=10, pady=(0,5))
+            tk.Label(frame,text=f"{movie_name}",font=("Arial", 12, "bold"),bg="#ecf0f1").pack(anchor="w", padx=10)
+            tk.Label(frame,text=f"Date: {date} | Time: {time}",bg="#ecf0f1").pack(anchor="w", padx=10)
+            tk.Label(frame,text=f"Seats: {seats}",bg="#ecf0f1").pack(anchor="w", padx=10)
+            tk.Label(frame,text=f"Booked At: {booking_time}",fg="gray",bg="#ecf0f1").pack(anchor="w", padx=10, pady=(0,5))
 
     # Show Profile
 
@@ -418,4 +240,3 @@ def open_user_dashboard():
     show_dashboard()
 
     dashboard.mainloop()
-

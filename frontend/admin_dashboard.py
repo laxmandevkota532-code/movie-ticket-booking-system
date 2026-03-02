@@ -9,27 +9,22 @@ from backend.admin import (add_movie,get_all_movies,delete_movie,add_show,get_al
 def open_admin_dashboard():
     dashboard = tk.Tk()
     dashboard.title("Admin Dashboard")
-    dashboard.geometry("900x500")
+    dashboard.state("zoomed")
 
-    # Sidebar Frame
     sidebar = tk.Frame(dashboard, width=200, bg="#2c3e50")
     sidebar.pack(side="left", fill="y")
 
-    # Main Content Frame
     main_content = tk.Frame(dashboard, bg="white")
     main_content.pack(side="right", expand=True, fill="both")
 
-    # Function to clear main content
     def clear_main():
         for widget in main_content.winfo_children():
             widget.destroy()
 
-    
     # Add Movie Form
     
     def show_add_movie():
         clear_main()
-
         tk.Label(main_content, text="Add Movie", font=("Arial", 16), bg="white").pack(pady=20)
 
         tk.Label(main_content, text="Movie Name", bg="white").pack()
@@ -54,18 +49,12 @@ def open_admin_dashboard():
             duration = duration_entry.get()
             genre = genre_entry.get()
 
-            # if name:
-            #     add_movie(name, desc, duration, genre)
-            #     tk.Label(main_content, text="Movie Added Successfully!", fg="green", bg="white").pack()
-            # else:
-            #     tk.Label(main_content, text="Movie Name Required!", fg="red", bg="white").pack()
             if not name or not desc or not duration or not genre:
                 tk.Label(main_content, text="All fields are required!", fg="red", bg="white").pack()
             else:
                 add_movie(name, desc, duration, genre)
                 tk.Label(main_content, text="Movie Added Successfully!", fg="green", bg="white").pack()
 
-                # Clear fields after success
                 name_entry.delete(0, tk.END)
                 desc_entry.delete(0, tk.END)
                 duration_entry.delete(0, tk.END)
@@ -99,19 +88,19 @@ def open_admin_dashboard():
 
             def delete_action(mid=movie_id):
                 delete_movie(mid)
-                show_delete_movie()  # refresh list
+                show_delete_movie()  
 
             tk.Button(row_frame, text="Delete",
                       fg="white", bg="red",
                       command=delete_action).pack(side="right")
-    # Sidebar Title
+            
+    
     tk.Label(sidebar, text="Admin Panel", bg="#2c3e50",
              fg="white", font=("Arial", 14)).pack(pady=20)
     
     
     # Add Show Section
     
-
     def show_add_show():
         clear_main()
 
@@ -125,7 +114,7 @@ def open_admin_dashboard():
                      bg="white", fg="red").pack()
             return
 
-        # Movie Dropdown
+        
         tk.Label(main_content, text="Select Movie", bg="white").pack()
         movie_var = tk.StringVar()
         movie_names = [movie[1] for movie in movies]
@@ -222,7 +211,6 @@ def open_admin_dashboard():
                      width=10, bg="white", anchor="w").pack(side="left")   
     
     # View Revenue Section
-    
     def show_view_revenue():
         clear_main()
 
@@ -231,11 +219,12 @@ def open_admin_dashboard():
 
         total = get_total_revenue()
 
-        tk.Label(main_content,
-                 text=f"Rs. {total}",
+        tk.Label(main_content, text=f"Rs. {total}",
                  font=("Arial", 20),
                  fg="green",
                  bg="white").pack(pady=10)
+        
+
     # Sidebar Buttons
     tk.Button(sidebar, text="Add Movie", width=20, command=show_add_movie).pack(pady=10)
     tk.Button(sidebar, text="Delete Movie",width=20, command=show_delete_movie).pack(pady=10)
@@ -244,3 +233,5 @@ def open_admin_dashboard():
     tk.Button(sidebar, text="View Revenue",width=20, command=show_view_revenue).pack(pady=10)
 
     dashboard.mainloop()
+
+    

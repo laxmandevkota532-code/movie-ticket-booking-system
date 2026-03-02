@@ -1,126 +1,47 @@
-# import tkinter as tk
-# from tkinter import messagebox
-# from backend.auth import login_user
-# from frontend.signup import open_signup
-# from frontend.user_dashboard import open_user_dashboard
-# from frontend.admin_dashboard import open_admin_dashboard
-# from frontend.forgot_password import open_forgot_password
-
-
-# def open_login():
-#     window = tk.Tk()
-#     window.title("Login")
-#     window.geometry("500x500")
-#     window.configure(bg="#78a9f3")
-
-#     tk.Label(window, text="Email").pack(pady=5)
-#     email_entry = tk.Entry(window)
-#     email_entry.pack()
-
-#     tk.Label(window, text="Password").pack(pady=5)
-#     password_entry = tk.Entry(window, show="*")
-#     password_entry.pack()
-
-#     def login_action():
-#         email = email_entry.get()
-#         password = password_entry.get()
-
-#     def login_action():
-#         email = email_entry.get().strip()
-#         password = password_entry.get().strip()
-
-#         # 🚨 Empty check
-#         if email == "" or password == "":
-#             messagebox.showerror("Error", "Please enter email and password")
-#             return
-
-#         user = login_user(email, password)
-
-#         if user:
-#             window.destroy()
-#             open_user_dashboard()
-#         else:
-#             messagebox.showerror("Error", "Invalid user credentials")
-
-#     # Admin login 
-#     def open_admin_login():
-#         window.destroy()
-#         from frontend.admin_login import open_admin_login_window
-#         open_admin_login_window()
-
-
-
-#     def go_to_signup():
-#         window.destroy()
-#         open_signup()
-
-#     tk.Button(window, text="Login", command=login_action).pack(pady=5)
-#     tk.Button(window, text="Signup", command=go_to_signup).pack(pady=5)
-#     tk.Button(window, text="Forgot Password", command=open_forgot_password).pack(pady=5)
-#     tk.Button(window, text="Admin Login", command=open_admin_login).pack(pady=5)
-  
-#     window.mainloop()
-
 import tkinter as tk
 from tkinter import messagebox
 from backend.auth import login_user
 from frontend.signup import open_signup
 from frontend.user_dashboard import open_user_dashboard
 from frontend.forgot_password import open_forgot_password
+from frontend.admin_login import open_admin_login_window
 
 
 def open_login():
     window = tk.Tk()
     window.title("CineBook - Login")
-    window.geometry("1000x600")
-    window.configure(bg="white")
+    window.state("zoomed")
+    window.configure(bg="#e6e6e6")
     window.resizable(False, False)
 
-    # ================= TOP BAR =================
-    top_bar = tk.Frame(window, height=60, bg="#2c3e50")
-    top_bar.pack(fill="x")
+    #  Center Card 
+    card = tk.Frame(window, bg="white",highlightthickness=1,highlightbackground="#d0d0d0")
+    card.place(relx=0.5, rely=0.5, anchor="center",
+               width=420, height=380)
 
-    tk.Label(
-        top_bar,
-        text="CineBook",
-        bg="#2c3e50",
-        fg="white",
-        font=("Arial", 18, "bold")
-    ).pack(side="left", padx=20)
+    #  Title
+    tk.Label(card, text="User Login", font=("Arial", 20, "bold"), bg="white").pack(pady=25)
 
-    # ================= LEFT PANEL =================
-    left_panel = tk.Frame(window, width=300, bg="#34495e")
-    left_panel.pack(side="left", fill="y")
+    #  Email 
+    tk.Label(card, text="Email", bg="white").pack(anchor="w", padx=95, pady=(5,2))
 
-    tk.Label(
-        left_panel,
-        text="User Login",
-        bg="#34495e",
-        fg="white",
-        font=("Arial", 20, "bold")
-    ).pack(pady=200)
+    email_entry = tk.Entry(card,   width=30,   relief="flat",   highlightthickness=1,   highlightbackground="#cccccc")
+    email_entry.pack(pady=(0,8), ipady=4)
 
-    # ================= RIGHT CONTENT =================
-    main_content = tk.Frame(window, bg="white")
-    main_content.pack(expand=True, fill="both")
+    
 
-    form_frame = tk.Frame(main_content, bg="white")
-    form_frame.place(relx=0.5, rely=0.5, anchor="center")
+    #Password 
+    tk.Label(card, text="Password", bg="white").pack(anchor="w", padx=95, pady=(5,2))
 
-    tk.Label(form_frame, text="Email", font=("Arial", 12), bg="white").pack(anchor="w")
-    email_entry = tk.Entry(form_frame, font=("Arial", 14), width=30)
-    email_entry.pack(pady=10)
+    password_entry = tk.Entry(card,  width=30,  show="*",  relief="flat",  highlightthickness=1,  highlightbackground="#cccccc")
+    password_entry.pack(pady=(0,10), ipady=4)
 
-    tk.Label(form_frame, text="Password", font=("Arial", 12), bg="white").pack(anchor="w")
-    password_entry = tk.Entry(form_frame, font=("Arial", 14), width=30, show="*")
-    password_entry.pack(pady=10)
-
-    # ================= LOGIN ACTION =================
+    # Login Logic 
     def login_action():
         email = email_entry.get().strip()
         password = password_entry.get().strip()
 
-        if email == "" or password == "":
+        if not email or not password:
             messagebox.showerror("Error", "Please enter email and password")
             return
 
@@ -130,34 +51,29 @@ def open_login():
             window.destroy()
             open_user_dashboard()
         else:
-            messagebox.showerror("Error", "Invalid user credentials")
+            messagebox.showerror("Error", "Invalid credentials")
 
-    # ================= ADMIN LOGIN =================
-    def open_admin_login():
-        window.destroy()
-        from frontend.admin_login import open_admin_login_window
-        open_admin_login_window()
+    # Login Button 
+    tk.Button(card,text="Login",bg="#3b7ddd",fg="white",width=22,height=1,bd=0,command=login_action).pack(pady=15)
 
-    def go_to_signup():
-        window.destroy()
-        open_signup()
+    #  Forgot Password (Clickable Label) 
+    forgot_label = tk.Label(card,text="Forgot Password?",fg="#3b7ddd",bg="white",cursor="hand2")
+    forgot_label.pack()
+    forgot_label.bind("<Button-1>",
+                      lambda e: [window.destroy(), open_forgot_password()])
 
-    # ================= BUTTON STYLE =================
-    def sidebar_button(text, command):
-        return tk.Button(
-            form_frame,
-            text=text,
-            width=25,
-            height=2,
-            bg="#2c3e50",
-            fg="white",
-            bd=0,
-            command=command
-        )
+    # Divider
+    tk.Frame(card, height=1, bg="#dddddd").pack(fill="x", pady=15, padx=50)
 
-    sidebar_button("Login", login_action).pack(pady=10)
-    sidebar_button("Signup", go_to_signup).pack(pady=5)
-    sidebar_button("Forgot Password", open_forgot_password).pack(pady=5)
-    sidebar_button("Admin Login", open_admin_login).pack(pady=5)
+    # Create Account
+    tk.Button(card,text="Create Account",width=22,height=1,relief="solid",bd=1,command=lambda: [window.destroy(), open_signup()]).pack(pady=5)
+
+   #  Top Bar 
+    top_bar = tk.Frame(window, bg="#ffffff")
+    top_bar.pack(fill="x", pady=10)
+
+    admin_btn = tk.Button(top_bar,text="Admin Login",bg="#60c7d2",fg="white",bd=0,padx=15,pady=5,command=lambda: [window.destroy(), open_admin_login_window()]) 
+    admin_btn.pack(side="right", padx=20)
+
 
     window.mainloop()
